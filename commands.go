@@ -115,6 +115,7 @@ type Cmdable interface {
 	Decr(ctx context.Context, key string) *IntCmd
 	DecrBy(ctx context.Context, key string, decrement int64) *IntCmd
 	Get(ctx context.Context, key string) *StringCmd
+	GetBytes(ctx context.Context, key string) *ByteCmd
 	GetRange(ctx context.Context, key string, start, end int64) *StringCmd
 	GetSet(ctx context.Context, key string, value interface{}) *StringCmd
 	Incr(ctx context.Context, key string) *IntCmd
@@ -692,6 +693,12 @@ func (c cmdable) DecrBy(ctx context.Context, key string, decrement int64) *IntCm
 // Redis `GET key` command. It returns redis.Nil error when key does not exist.
 func (c cmdable) Get(ctx context.Context, key string) *StringCmd {
 	cmd := NewStringCmd(ctx, "get", key)
+	_ = c(ctx, cmd)
+	return cmd
+}
+
+func (c cmdable) GetBytes(ctx context.Context, key string) *ByteCmd {
+	cmd := NewByteCmd(ctx, "get", key)
 	_ = c(ctx, cmd)
 	return cmd
 }

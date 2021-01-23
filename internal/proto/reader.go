@@ -155,6 +155,44 @@ func (r *Reader) ReadString() (string, error) {
 	}
 }
 
+func (r *Reader) ReadBytes() ([]byte, error) {
+	line, err := r.ReadLine()
+	if err != nil {
+		return nil, err
+	}
+	switch line[0] {
+	case ErrorReply:
+		return nil, ParseErrorReply(line)
+	case StringReply:
+		return r.readBytesReply(line)
+	case StatusReply:
+		return line[1:], nil
+	case IntReply:
+		return line[1:], nil
+	default:
+		return nil, fmt.Errorf("redis: can't parse reply=%.100q reading string", line)
+	}
+}
+
+func (r *Reader) readBytesReply(line []byte) ([]byte, error) {
+	if isNilReply(line) {
+		return nil, Nil
+	}
+
+	replyLen, err := util.Atoi(line[1:])
+	if err != nil {
+		return nil, err
+	}
+
+	b := make([]byte, replyLen+2)
+	_, err = io.ReadFull(r.rd, b)
+	if err != nil {
+		return nil, err
+	}
+
+	return b[:replyLen], nil
+}
+
 func (r *Reader) readStringReply(line []byte) (string, error) {
 	if isNilReply(line) {
 		return "", Nil

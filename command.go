@@ -657,6 +657,37 @@ func (cmd *BoolCmd) readReply(rd *proto.Reader) error {
 		return fmt.Errorf("got %T, wanted int64 or string", v)
 	}
 }
+//------------------------------------------------------------------------------
+
+type ByteCmd struct {
+	baseCmd
+
+	val []byte
+}
+
+var _ Cmder = (*ByteCmd)(nil)
+
+func NewByteCmd(ctx context.Context, args ...interface{}) *ByteCmd {
+	return &ByteCmd{
+		baseCmd: baseCmd{
+			ctx:  ctx,
+			args: args,
+		},
+	}
+}
+
+func (cmd *ByteCmd) Val() []byte {
+	return cmd.val
+}
+
+func (cmd *ByteCmd) String() string {
+	return cmdString(cmd, cmd.val)
+}
+
+func (cmd *ByteCmd) readReply(rd *proto.Reader) (err error) {
+	cmd.val, err = rd.ReadBytes()
+	return err
+}
 
 //------------------------------------------------------------------------------
 
