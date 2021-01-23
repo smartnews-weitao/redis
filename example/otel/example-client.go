@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redis/redis/v8"
-	"github.com/go-redis/redis/v8/extra/redisotel"
+	"github.com/smartnews-weitao/redis/v8"
+	"github.com/smartnews-weitao/redis/v8/extra/redisotel"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/stdout"
 	"go.opentelemetry.io/otel/sdk/metric/controller/push"

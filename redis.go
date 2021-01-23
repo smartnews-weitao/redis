@@ -7,9 +7,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/go-redis/redis/v8/internal"
-	"github.com/go-redis/redis/v8/internal/pool"
-	"github.com/go-redis/redis/v8/internal/proto"
+	"github.com/smartnews-weitao/redis/v8/internal"
+	"github.com/smartnews-weitao/redis/v8/internal/pool"
+	"github.com/smartnews-weitao/redis/v8/internal/proto"
 	"go.opentelemetry.io/otel/label"
 	"go.opentelemetry.io/otel/trace"
 )

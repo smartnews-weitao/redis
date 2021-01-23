@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redis/redis/v8"
+	"github.com/smartnews-weitao/redis/v8"
 )
 
 var (
